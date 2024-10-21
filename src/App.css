@@ -1,0 +1,163 @@
+/* General body and container styles */
+body {
+  background-color: #a463f2;
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.app-container {
+  background-color: #181a33;
+  padding: 30px;
+  border-radius: 20px;
+  border-color: #a463f2;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  text-align: center;
+ }
+
+h1 {
+  color: white;
+  font-family: "Lilita One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  margin-bottom: 20px;
+}
+
+/* Input field styling */
+.todo-input {
+  width: 80%;
+  padding: 10px;
+  border-radius: 15px;
+  border-color: #a463f2;
+  outline: none;
+  margin-right: 10px;
+  background-color: #2f3055;
+  color: #e0e0ff;
+}
+
+/* Add Todo button */
+.add-todo-button,.deleteAll-button {
+  background-color: #a463f2;
+  border-radius: 90%;
+  border-color:#a463f2 ;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-todo-button:hover {
+  background-color: #9267ff;
+}
+.deleteAll-button:hover{
+  background-color: #9267ff;
+}
+
+/* Show Completed checkbox */
+.show-completed {
+  color: white;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+
+.show-completed input {
+  margin-right: 8px;
+}
+
+/* Todo list items */
+/* Set maximum height for the container holding the tasks */
+.todo-list-container {
+  max-height: 400px; /* Adjust this height based on your design preference */
+  overflow-y: auto;  /* Enable vertical scrolling */
+}
+
+/* You can also customize the scrollbar */
+.todo-list-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.todo-list-container::-webkit-scrollbar-thumb {
+  background-color: #6C5CE7; /* Color of scrollbar */
+  border-radius: 10px;
+}
+
+.todo-list-container::-webkit-scrollbar-track {
+  background-color: #2d3436; /* Color of scrollbar track */
+}
+
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  background-color: #8c64ff;
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  justify-content: space-between;
+}
+
+/* Todo text */
+.todo-text {
+  flex: 1;
+  text-align: left;
+  margin-left: 10px;
+}
+
+/* Checkbox for individual todos */
+.todo-checkbox {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+/* Edit and Delete buttons */
+.todo-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.edit-button,
+.delete-button {
+  background-color: #2f3055;
+  border: none;
+  padding: 8px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.edit-button svg,
+.delete-button svg {
+  width: 16px;
+  height: 16px;
+}
+
+.edit-button:hover {
+  background-color: #3e4277;
+}
+
+.delete-button:hover {
+  background-color: #ff6565;
+}
+
+
+
+/* "No Todos Found" message */
+.todo-Not-Found {
+  color: whitesmoke;
+  background-color:#2f3055;
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+p {
+  margin-bottom: 20px;
+}

@@ -1,28 +1,47 @@
-// Importing React and necessary hooks
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrash,faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrash, faPlus, faSave, faTimes } from '@fortawesome/free-solid-svg-icons';
 import './App.css';
-// App Component
-function App() {
-  // Defining state for managing todos and input text
-  const [todos, setTodos] = useState([]);  // Array of todos
-  const [todoText, setTodoText] = useState(''); // Text input for new todo
-  const [showCompleted, setShowCompleted] = useState(true); // Show/hide completed todos
 
-  // Add a new todo
-  const addTodo=()=>{
-    if(todoText.trim()==='') return; //prevent adding empty spaces
-    setTodos([...todos,{
-      id:Date.now(),
-      text:todoText,
-      isCompleted:false, //new todos are not completed by default
-      isEditing:false
-    }]);
-    setTodoText(''); //clear input after adding
+function App() {
+  const [todos, setTodos] = useState([]);
+  const [todoText, setTodoText] = useState('');
+  const [filter, setFilter] = useState('all'); // 'all', 'active', 'completed'
+
+  // Load todos from localStorage on component mount
+  useEffect(() => {
+    const savedTodos = localStorage.getItem('todos');
+    if (savedTodos) {
+      setTodos(JSON.parse(savedTodos));
+    }
+  }, []);
+
+  // Save todos to localStorage whenever todos change
+  useEffect(() => {
+    localStorage.setItem('todos', JSON.stringify(todos));
+  }, [todos]);
+
+  const addTodo = () => {
+    if (todoText.trim() === '') return;
+    
+    const newTodo = {
+      id: Date.now(),
+      text: todoText.trim(),
+      isCompleted: false,
+      isEditing: false,
+      createdAt: new Date().toISOString()
+    };
+    
+    setTodos([newTodo, ...todos]);
+    setTodoText('');
   };
 
-  //  Toggle todo completion status
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      addTodo();
+    }
+  };
+
   const toggleComplete = (id) => {
     setTodos(
       todos.map((todo) =>
@@ -30,21 +49,23 @@ function App() {
       )
     );
   };
-    // Step 9: Delete a todo by filtering out the one with matching ID
+
   const deleteTodo = (id) => {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
 
-  //  Edit todo (switch to edit mode or save new text)
   const editTodo = (id, newText) => {
+    if (newText.trim() === '') {
+      deleteTodo(id);
+      return;
+    }
     setTodos(
       todos.map((todo) =>
-        todo.id === id ? { ...todo, text: newText, isEditing: false } : todo
+        todo.id === id ? { ...todo, text: newText.trim(), isEditing: false } : todo
       )
     );
   };
 
-  //  Toggle edit mode for a specific todo
   const toggleEdit = (id) => {
     setTodos(
       todos.map((todo) =>
@@ -53,38 +74,98 @@ function App() {
     );
   };
 
-  //  Handle filtering of completed todos
-  const filteredTodos = showCompleted
-    ? todos
-    : todos.filter((todo) => !todo.isCompleted);
+  const cancelEdit = (id) => {
+    setTodos(
+      todos.map((todo) =>
+        todo.id === id ? { ...todo, isEditing: false } : todo
+      )
+    );
+  };
+
+  const clearCompleted = () => {
+    setTodos(todos.filter(todo => !todo.isCompleted));
+  };
+
+  const deleteAll = () => {
+    if (window.confirm('Are you sure you want to delete all tasks?')) {
+      setTodos([]);
+    }
+  };
+
+  // Filter todos based on current filter
+  const filteredTodos = todos.filter(todo => {
+    if (filter === 'active') return !todo.isCompleted;
+    if (filter === 'completed') return todo.isCompleted;
+    return true;
+  });
+
+  const activeTodosCount = todos.filter(todo => !todo.isCompleted).length;
+  const completedTodosCount = todos.filter(todo => todo.isCompleted).length;
 
   return (
     <div className="app-container">
-      <h1>Get Things Done!</h1>
+      <div className="app-header">
+        <h1>Get Things Done! 🚀</h1>
+        <p>Organize your tasks and boost productivity</p>
+      </div>
 
-      {/*  Todo Form */}
+      {/* Add Todo Form */}
       <div className="todo-form">
-        <input
-        className='todo-input'
-          type="text"
-          value={todoText}
-          onChange={(e) => setTodoText(e.target.value)}
-          placeholder="Enter your todo here..."
-        />
-              <button className='add-todo-button' onClick={addTodo}> <FontAwesomeIcon icon={faPlus} /> Add Todo</button>
+        <div className="input-container">
+          <input
+            className="todo-input"
+            type="text"
+            value={todoText}
+            onChange={(e) => setTodoText(e.target.value)}
+            onKeyPress={handleKeyPress}
+            placeholder="What needs to be done?"
+            maxLength={100}
+          />
+          <button className="add-todo-button" onClick={addTodo} disabled={!todoText.trim()}>
+            <FontAwesomeIcon icon={faPlus} />
+            Add Task
+          </button>
+        </div>
+        {todoText.length > 0 && (
+          <div className="character-count">
+            {todoText.length}/100 characters
+          </div>
+        )}
       </div>
 
-      {/* Show Completed Checkbox */}
-      <div className="show-completed">
-        <input
-          type="checkbox"
-          checked={showCompleted}
-          onChange={() => setShowCompleted(!showCompleted)}
-        />
-        <label>Show Completed</label>
-      </div>
+      {/* Stats and Filters */}
+      {todos.length > 0 && (
+        <div className="todo-stats-filters">
+          <div className="todo-stats">
+            <span className="stat active">{activeTodosCount} Active</span>
+            <span className="stat completed">{completedTodosCount} Completed</span>
+            <span className="stat total">{todos.length} Total</span>
+          </div>
+          
+          <div className="filter-buttons">
+            <button 
+              className={`filter-btn ${filter === 'all' ? 'active' : ''}`}
+              onClick={() => setFilter('all')}
+            >
+              All
+            </button>
+            <button 
+              className={`filter-btn ${filter === 'active' ? 'active' : ''}`}
+              onClick={() => setFilter('active')}
+            >
+              Active
+            </button>
+            <button 
+              className={`filter-btn ${filter === 'completed' ? 'active' : ''}`}
+              onClick={() => setFilter('completed')}
+            >
+              Completed
+            </button>
+          </div>
+        </div>
+      )}
 
-      {/* Todo List Rendering */}
+      {/* Todo List */}
       <div className="todo-list-container">
         {filteredTodos.length > 0 ? (
           filteredTodos.map((todo) => (
@@ -95,60 +176,114 @@ function App() {
               deleteTodo={deleteTodo}
               toggleEdit={toggleEdit}
               editTodo={editTodo}
+              cancelEdit={cancelEdit}
             />
           ))
         ) : (
-         <div className='todo-Not-Found'> <p>You currently have no available task to do.</p></div>
+          <div className="empty-state">
+            <div className="empty-icon">📝</div>
+            <h3>No tasks found</h3>
+            <p>
+              {filter === 'active' 
+                ? "You've completed all your tasks! 🎉" 
+                : filter === 'completed' 
+                ? "No completed tasks yet" 
+                : "Add a task to get started!"}
+            </p>
+          </div>
         )}
       </div>
 
-      {/* Delete All Todos Button */}
-      <button className='deleteAll-button' onClick={() => setTodos([])}>Delete All <FontAwesomeIcon icon={faTrash} /></button>
+      {/* Action Buttons */}
+      {todos.length > 0 && (
+        <div className="action-buttons">
+          {completedTodosCount > 0 && (
+            <button className="clear-completed-btn" onClick={clearCompleted}>
+              <FontAwesomeIcon icon={faTrash} />
+              Clear Completed ({completedTodosCount})
+            </button>
+          )}
+          <button className="delete-all-btn" onClick={deleteAll}>
+            <FontAwesomeIcon icon={faTrash} />
+            Delete All
+          </button>
+        </div>
+      )}
     </div>
   );
 }
 
-// TodoItem Component for individual todo item
-function TodoItem({ todo, toggleComplete, deleteTodo, toggleEdit, editTodo }) {
-  const [newText, setNewText] = useState(todo.text); // Local state for editing
+function TodoItem({ todo, toggleComplete, deleteTodo, toggleEdit, editTodo, cancelEdit }) {
+  const [newText, setNewText] = useState(todo.text);
+
+  const handleSave = () => {
+    editTodo(todo.id, newText);
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSave();
+    } else if (e.key === 'Escape') {
+      cancelEdit(todo.id);
+    }
+  };
 
   return (
-    <div className="todo-item">
-      {/* Checkbox to mark as complete */}
-      <input
-        type="checkbox"
-        checked={todo.isCompleted}
-        onChange={() => toggleComplete(todo.id)}
-      />
-
-      {/* Show input for editing if in edit mode */}
-      {todo.isEditing ? (
+    <div className={`todo-item ${todo.isCompleted ? 'completed' : ''} ${todo.isEditing ? 'editing' : ''}`}>
+      <div className="todo-content">
         <input
-          type="text"
-          value={newText}
-          onChange={(e) => setNewText(e.target.value)}
+          type="checkbox"
+          className="todo-checkbox"
+          checked={todo.isCompleted}
+          onChange={() => toggleComplete(todo.id)}
         />
-      ) : (
-        <span style={{ textDecoration: todo.isCompleted ? 'line-through' : '' }}>
-          {todo.text}
-        </span>
-      )}
-
-      {/* 
-       Edit and Delete buttons */}
-      {todo.isEditing ? (
-        <button onClick={() => editTodo(todo.id, newText)}>Save</button>
-      ) : (
-        <button onClick={() => toggleEdit(todo.id)}><FontAwesomeIcon icon={faEdit} /></button>
-      )}
-      <button onClick={() => deleteTodo(todo.id)}>
-        <FontAwesomeIcon icon={faTrash} />
-        </button>
+        
+        {todo.isEditing ? (
+          <div className="edit-container">
+            <input
+              type="text"
+              className="edit-input"
+              value={newText}
+              onChange={(e) => setNewText(e.target.value)}
+              onKeyPress={handleKeyPress}
+              autoFocus
+              maxLength={100}
+            />
+            <div className="edit-actions">
+              <button className="save-btn" onClick={handleSave}>
+                <FontAwesomeIcon icon={faSave} />
+              </button>
+              <button className="cancel-btn" onClick={() => cancelEdit(todo.id)}>
+                <FontAwesomeIcon icon={faTimes} />
+              </button>
+            </div>
+          </div>
+        ) : (
+          <>
+            <span className="todo-text" onClick={() => toggleComplete(todo.id)}>
+              {todo.text}
+            </span>
+            <div className="todo-actions">
+              <button 
+                className="edit-button" 
+                onClick={() => toggleEdit(todo.id)}
+                title="Edit task"
+              >
+                <FontAwesomeIcon icon={faEdit} />
+              </button>
+              <button 
+                className="delete-button" 
+                onClick={() => deleteTodo(todo.id)}
+                title="Delete task"
+              >
+                <FontAwesomeIcon icon={faTrash} />
+              </button>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 }
 
-// Step 21: Export the App component as default
 export default App;
-
-

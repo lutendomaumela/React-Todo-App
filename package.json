@@ -1,14 +1,13 @@
 {
-  "homepage": "https://github.com/lutendomaumela/React-Todo-App/",
   "name": "get-things-done",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
+  "description": "Get Things Done - A beautiful and productive todo app",
+  "homepage": "https://todo-app-theta-jade.vercel.app",
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.6.0",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-scripts": "5.0.1",
@@ -18,8 +17,6 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "predeploy":"npm run build",
-    "deploy":"main -d build",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -40,7 +37,7 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    "gh-pages": "^6.2.0"
+  "engines": {
+    "node": "22.x"
   }
 }

@@ -1,71 +1,53 @@
-# Getting Started with Create React App
+# Get Things Done! 🚀
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A beautiful, modern, and productive todo application built with React. Organize your daily tasks, boost your productivity, and stay on top of your goals with this intuitive task management app.
 
-## Available Scripts
+**Live Demo:** [https://todo-app-theta-jade.vercel.app](https://todo-app-theta-jade.vercel.app)
 
-In the project directory, you can run:
+## ✨ Features
 
-### `npm start`
+### Core Functionality
+- ✅ **Add Tasks** - Quickly add new tasks with Enter key or button click
+- ✏️ **Edit Tasks** - Modify your tasks anytime while keeping track of your updates
+- 🗑️ **Delete Tasks** - Remove individual tasks or clear all completed tasks at once
+- ✔️ **Mark Complete** - Check off completed tasks with visual feedback
+- 📊 **Task Filtering** - View all tasks, active tasks, or completed tasks
+- 🎯 **Task Statistics** - Real-time counter showing active, completed, and total tasks
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### User Experience
+- 🎨 **Modern UI Design** - Clean and intuitive interface with smooth interactions
+- 💾 **Local Storage** - Automatic saving of tasks using browser localStorage (persists across sessions)
+- ⌨️ **Keyboard Shortcuts**
+  - `Enter` - Add new task
+  - `Enter` (in edit mode) - Save changes
+  - `Escape` (in edit mode) - Cancel editing
+- 📱 **Responsive Design** - Works seamlessly on desktop and mobile devices
+- 📝 **Character Counter** - Track task length (max 100 characters)
+- 🎯 **Empty States** - Helpful messages for different empty scenarios
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Additional Features
+- Clear all completed tasks with one click
+- Delete all tasks with confirmation
+- Real-time task count updates
+- Smooth animations and transitions
+- Font Awesome icons for intuitive visual feedback
 
-### `npm test`
+## 🛠️ Tech Stack
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **React** (v18.3.1) - JavaScript UI library
+- **Create React App** - Project setup and build tool
+- **CSS3** - Modern styling with animations
+- **Font Awesome** (v6.6.0) - Icon library
+- **localStorage API** - Browser storage for persistence
+- **Node.js** (v22.x) - JavaScript runtime
 
-### `npm run build`
+## 📦 Installation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Prerequisites
+- Node.js v22.x or higher
+- npm or yarn package manager
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# React-Todo-App
+### Clone the Repository
+```bash
+git clone https://github.com/lutendomaumela/React-Todo-App.git
+cd React-Todo-App
